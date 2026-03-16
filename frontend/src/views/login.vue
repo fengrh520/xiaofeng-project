@@ -12,6 +12,9 @@
         <el-form-item>
           <el-button type="primary" class="login-btn" @click="handleLogin" :loading="loading">登录</el-button>
         </el-form-item>
+        <div class="blog-link">
+          <router-link to="/blog">随便看看 (访问博客)</router-link>
+        </div>
       </el-form>
     </el-card>
   </div>
@@ -61,5 +64,17 @@ const handleLogin = async () => {
 }
 .login-btn {
   width: 100%;
+}
+.blog-link {
+  text-align: center;
+  margin-top: 15px;
+}
+.blog-link a {
+  color: #409eff;
+  text-decoration: none;
+  font-size: 14px;
+}
+.blog-link a:hover {
+  text-decoration: underline;
 }
 </style>
