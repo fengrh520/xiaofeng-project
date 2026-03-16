@@ -1,0 +1,7 @@
+# 前端忽略规则
+node_modules/
+dist/
+build/
+.env
+npm-debug.log
+yarn-error.log

@@ -1,0 +1,7 @@
+# 后端忽略规则
+.env
+db.sqlite3
+__pycache__/
+venv/
+migrations/
+*.pyc
