@@ -11,6 +11,7 @@
   ],
   "functions": {
     "backend/config/wsgi.py": {
+      "runtime": "python3.9",
       "maxDuration": 10
     }
   }
