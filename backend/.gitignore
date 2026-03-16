@@ -1,6 +1,6 @@
 # 后端忽略规则
 .env
-db.sqlite3
+# db.sqlite3 (为了 Vercel 演示暂时允许提交)
 __pycache__/
 venv/
 migrations/
