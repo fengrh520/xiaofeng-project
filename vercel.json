@@ -16,5 +16,8 @@
       "source": "/((?!api/).*)",
       "destination": "/frontend/dist/index.html"
     }
-  ]
+  ],
+  "env": {
+      "DISABLE_COLLECTSTATIC": "1"
+  }
 }
