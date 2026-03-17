@@ -10,6 +10,11 @@ const routes = [
     component: () => import('../views/login.vue')
   },
   {
+    path: '/register',
+    name: 'Register',
+    component: () => import('../views/Register.vue')
+  },
+  {
     path: '/',
     name: 'Home',
     // 为了不大幅改动现在的代码，我们把核心功能暂时当作首页
@@ -33,7 +38,7 @@ router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
   
   // 白名单：不需要登录就能访问的页面
-  const whiteList = ['Login', 'Blog']
+  const whiteList = ['Login', 'Blog', 'Register']
 
   // 如果想去的地方不在白名单里，而且用户没登录
   if (!whiteList.includes(to.name) && !authStore.isAuthenticated) {

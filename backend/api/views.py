@@ -1,14 +1,21 @@
 import os
-from rest_framework import viewsets, permissions, filters
+from rest_framework import viewsets, permissions, filters, generics
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
+from django.contrib.auth.models import User
 from openai import OpenAI
 from dotenv import load_dotenv
 from .models import Prompt
-from .serializers import PromptSerializer
+from .serializers import PromptSerializer, RegisterSerializer
 
 # 加载 .env 里的 Key
 load_dotenv()
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
 
 class PromptViewSet(viewsets.ModelViewSet):
     queryset = Prompt.objects.all() # 用于生成路由名称，实际查询会被 get_queryset 覆盖
@@ -66,11 +73,15 @@ class PromptViewSet(viewsets.ModelViewSet):
             # 4. 拿到 Kimi 的回复
             optimized_content = completion.choices[0].message.content
 
+            # 4.1 自动生成标题：取原始提示词的前10个字符，如果太长就加省略号
+            # 也可以让 AI 帮忙总结，但为了省钱和速度，先用截取法
+            auto_title = original_prompt[:10] + ('...' if len(original_prompt) > 10 else '')
+
             # 5. 保存到我们自己的数据库
             # 注意：我们创建一个新的 Prompt 对象，而不是直接保存 request.data
             prompt_instance = Prompt.objects.create(
                 user=request.user,  # 关联当前用户
-                title=request.data.get('title', '未命名任务'),
+                title=request.data.get('title') or auto_title, # 优先用前端传的，没有就用自动生成的
                 original_prompt=original_prompt,
                 optimized_prompt=optimized_content
             )

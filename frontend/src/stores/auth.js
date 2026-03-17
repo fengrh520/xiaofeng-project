@@ -43,6 +43,18 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    async register(username, password) {
+      try {
+        await axios.post('/api/register/', {
+          username,
+          password
+        })
+        return true
+      } catch (error) {
+        throw error
+      }
+    },
+
     setToken(access, refresh) {
       this.accessToken = access
       this.refreshToken = refresh
