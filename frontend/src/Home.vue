@@ -158,7 +158,7 @@ const optimizePrompt = async () => {
   const authStore = useAuthStore() // 获取 store
 
   try {
-    const response = await axios.post('http://127.0.0.1:8000/api/prompts/', {
+    const response = await axios.post('/api/prompts/', {
       original_prompt: inputPrompt.value,
       // 可以在这里传更多参数，比如场景选择
     }, {
@@ -196,7 +196,7 @@ const fetchHistory = async () => {
 
     // console.log('正在请求历史记录，参数:', params) // 调试日志
 
-    const res = await axios.get('http://127.0.0.1:8000/api/prompts/', { 
+    const res = await axios.get('/api/prompts/', { 
       params,
       headers: { Authorization: `Bearer ${authStore.accessToken}` } // 显式传递 Token，防止拦截器失效
     })
@@ -215,7 +215,7 @@ const toggleStar = async (item) => {
   const authStore = useAuthStore()
   try {
     const newVal = !item.is_starred
-    await axios.patch(`http://127.0.0.1:8000/api/prompts/${item.id}/`, {
+    await axios.patch(`/api/prompts/${item.id}/`, {
       is_starred: newVal
     }, {
       headers: { Authorization: `Bearer ${authStore.accessToken}` }
@@ -235,7 +235,7 @@ const togglePin = async (item) => {
   const authStore = useAuthStore()
   try {
     const newVal = !item.is_pinned
-    await axios.patch(`http://127.0.0.1:8000/api/prompts/${item.id}/`, {
+    await axios.patch(`/api/prompts/${item.id}/`, {
       is_pinned: newVal
     }, {
       headers: { Authorization: `Bearer ${authStore.accessToken}` }
@@ -255,7 +255,7 @@ const deletePrompt = async (item) => {
       type: 'warning'
     })
     
-    await axios.delete(`http://127.0.0.1:8000/api/prompts/${item.id}/`, {
+    await axios.delete(`/api/prompts/${item.id}/`, {
       headers: { Authorization: `Bearer ${authStore.accessToken}` }
     })
     ElMessage.success('删除成功')

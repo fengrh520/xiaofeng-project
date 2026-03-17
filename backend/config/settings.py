@@ -117,6 +117,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # 允许前端 5173 和 5174 端口访问后端
+CORS_ALLOW_ALL_ORIGINS = True # 为了 Vercel 部署简单起见，允许所有源
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:5174",
