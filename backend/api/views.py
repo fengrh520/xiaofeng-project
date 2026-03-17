@@ -18,7 +18,7 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
 class PromptViewSet(viewsets.ModelViewSet):
-    queryset = Prompt.objects.all() # 用于生成路由名称，实际查询会被 get_queryset 覆盖
+    # queryset = Prompt.objects.all() # 不要用这个了，它会返回所有人的数据
     serializer_class = PromptSerializer
     permission_classes = [permissions.IsAuthenticated]
     
@@ -31,8 +31,13 @@ class PromptViewSet(viewsets.ModelViewSet):
 
     # 只返回当前登录用户的数据
     def get_queryset(self):
+        user = self.request.user
+        
+        if user.is_anonymous:
+             return Prompt.objects.none()
+             
         # 基础查询：只看当前用户的
-        queryset = Prompt.objects.filter(user=self.request.user)
+        queryset = Prompt.objects.filter(user=user)
         
         # 修复：手动处理搜索逻辑，确保中文搜索正常工作
         # 这里的 'search' 对应前端传来的 ?search=xxx 参数
