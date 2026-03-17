@@ -1,7 +1,7 @@
 #!/bin/bash
 # 1. 安装后端依赖
 echo "Installing Python dependencies..."
-pip install -r backend/requirements.txt
+pip install -r requirements.txt
 
 # 2. 构建前端
 echo "Building Frontend..."
