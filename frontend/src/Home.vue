@@ -60,15 +60,18 @@
           </div>
           <!-- 搜索和筛选栏 -->
           <div class="filter-bar">
-            <el-input 
-              v-model="searchQuery" 
-              placeholder="搜索..." 
-              prefix-icon="Search"
-              clearable
-              size="small"
-              class="search-input"
-              @clear="fetchHistory"
-            />
+            <div class="search-group">
+              <el-input 
+                v-model="searchQuery" 
+                placeholder="搜索..." 
+                clearable
+                size="small"
+                class="search-input"
+                @clear="fetchHistory"
+                @keyup.enter="fetchHistory"
+              />
+              <el-button size="small" :icon="Search" @click="fetchHistory" />
+            </div>
             <el-radio-group v-model="filterType" size="small">
               <el-radio-button label="all">全部</el-radio-button>
               <el-radio-button label="starred">
@@ -332,6 +335,12 @@ onMounted(() => {
   align-items: center;
   gap: 10px;
   margin-top: 10px;
+}
+
+.search-group {
+  display: flex;
+  flex: 1;
+  gap: 5px;
 }
 
 .search-input {
