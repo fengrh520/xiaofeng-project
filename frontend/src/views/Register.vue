@@ -51,7 +51,22 @@ const handleRegister = async () => {
     ElMessage.success('注册成功！请登录')
     router.push('/login')
   } catch (error) {
-    ElMessage.error('注册失败: ' + (error.response?.data?.username?.[0] || '用户名可能已存在'))
+    // 提取后端返回的具体错误信息
+    let errorMsg = '用户名可能已存在'
+    if (error.response && error.response.data) {
+       // 如果后端返回了具体的 username 错误（比如已存在）
+       if (error.response.data.username) {
+           errorMsg = error.response.data.username[0]
+       } 
+       // 或者其他的错误字段
+       else if (typeof error.response.data === 'string') {
+           errorMsg = error.response.data
+       } else {
+           // 尝试将对象转换为字符串展示
+           errorMsg = JSON.stringify(error.response.data)
+       }
+    }
+    ElMessage.error('注册失败: ' + errorMsg)
   } finally {
     loading.value = false
   }

@@ -51,6 +51,8 @@ export const useAuthStore = defineStore('auth', {
         })
         return true
       } catch (error) {
+        // 将具体的错误信息抛出，以便在 Register.vue 中捕获并显示
+        console.error('注册接口返回错误:', error.response?.data)
         throw error
       }
     },
