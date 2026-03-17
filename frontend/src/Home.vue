@@ -203,7 +203,12 @@ const fetchHistory = async () => {
       params,
       headers: { Authorization: `Bearer ${authStore.accessToken}` } // 显式传递 Token，防止拦截器失效
     })
-    historyList.value = res.data
+    // 兼容分页和不分页的 API 响应结构
+    if (res.data.results) {
+      historyList.value = res.data.results
+    } else {
+      historyList.value = res.data
+    }
     // console.log('获取到的数据:', res.data) // 调试日志
     
   } catch (error) {
